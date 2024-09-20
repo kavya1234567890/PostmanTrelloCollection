@@ -1,0 +1,651 @@
+{
+	"info": {
+		"_postman_id": "9644e58f-cd61-482d-a5b4-819963f11a01",
+		"name": "TrelloAutomation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38414833"
+	},
+	"item": [
+		{
+			"name": "Firstreq",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.collectionVariables.set(\"baseURL\",'https://api.trello.com');\r",
+							"pm.collectionVariables.set('key',\"6ed294b068c309b49829045547a7fa98\");\r",
+							"pm.collectionVariables.set(\"token\",\"ATTA888314acc5034198f1d9a87fb5635822d8b4dccaa552c9ee1ed8eee6fe9a814b1E22EB98\");\r",
+							"//pm.execution.setNextRequest(\"LOOPS\");"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/members/me/boards?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"members",
+						"me",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBoard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var r=pm.response.json();\r",
+							"pm.collectionVariables.set(\"id\",r.id);\r",
+							"\r",
+							"pm.test(\"TOdoConplexStructureNavigation\",()=>{\r",
+							"    pm.expect(r).to.be.an('Object');\r",
+							"    pm.expect(r.pinned).to.be.false;\r",
+							"    pm.expect(r.prefs.voting).to.be.eql(\"disabled\");\r",
+							"\r",
+							"   \r",
+							"});\r",
+							"pm.test(\"Little complex structure\",()=>{\r",
+							"    pm.expect(r.prefs.switcherViews).to.be.a('array');\r",
+							"\r",
+							"    const v=r.prefs.switcherViews.find(view=>view.enabled===true);\r",
+							"    console.log(v);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1//boards/?name=kavyaNewOne&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"",
+						"boards",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "kavyaNewOne"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var r=pm.response.json();\r",
+							"pm.collectionVariables.set('id',r.id);\r",
+							"// if(r.length>0)\r",
+							"// {\r",
+							"//     pm.execution.setNextRequest(\"delete board\");\r",
+							"// }\r",
+							"// else{\r",
+							"//     pm.execution.setNextRequest(null);\r",
+							"// }\r",
+							"pm.test(\"status 200\",()=>{\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"console.log(pm.collectionVariables.get('id'));\r",
+							"//console.log(r.length);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOOPS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//pm.execution.setNextRequest(\"get a field from board\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateBoard",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var b=parseInt(pm.collectionVariables.get('boardname'));//to count of name in response\r",
+							"\r",
+							"b++;\r",
+							"pm.collectionVariables.set('boardname',b);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id?key={{key}}&token={{token}}&name=KavyaFirstPut {{boardname}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "KavyaFirstPut {{boardname}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get a field from board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//pm.execution.setNextRequest(null);\r",
+							"pm.collectionVariables.set(\"field\",'powerUps');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id/:field?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						":field"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						},
+						{
+							"key": "field",
+							"value": "{{field}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get checklist on board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"field\",'powerUps');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id/checklists?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						"checklists"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"field\",'powerUps');\r",
+							"var r=pm.response.json();\r",
+							"console.log(r);\r",
+							"pm.collectionVariables.set('listid',r[0].id);\r",
+							"var l=pm.collectionVariables.get('listid');\r",
+							"console.log(l);\r",
+							"\r",
+							"pm.test(\"value get\",()=>{\r",
+							"    pm.expect(r).to.be.a('array');\r",
+							"r.map(values=>{//instead of for we can use map also\r",
+							"pm.expect(values).to.have.property('id');\r",
+							"})\r",
+							"});\r",
+							"//to store array datas in another array as collection var\r",
+							"const m=r.map(v=>v.id);\r",
+							"pm.collectionVariables.set(\"ÄrrayOfId\",m);//stored in form of array\r",
+							"//m.pop();\r",
+							"//pm.collectionVariables.set(\"ÄrrayOfId\",m);//stored in form of array\r",
+							"//console.log(pm.collectionVariables.get('ÄrrayOfId'));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id/lists?name=ThisIsCreatedName&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "ThisIsCreatedName"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ForENVvarNewman",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.postman.com/environments/25439698-a8e02ceb-44ad-48e3-aef4-b1a69e266c82?apikey=PMAK-66e85ed783eb0500013c673f-7757685c2f1f1650ac4c4f23e7564d1c7e",
+					"protocol": "https",
+					"host": [
+						"api",
+						"postman",
+						"com"
+					],
+					"path": [
+						"environments",
+						"25439698-a8e02ceb-44ad-48e3-aef4-b1a69e266c82"
+					],
+					"query": [
+						{
+							"key": "apikey",
+							"value": "PMAK-66e85ed783eb0500013c673f-7757685c2f1f1650ac4c4f23e7564d1c7e"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"field\",'powerUps');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id/emailKey/generate?key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						"emailKey",
+						"generate"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MarkBoardViewed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"field\",'powerUps');"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/1/boards/:id/lists?name=ThisIsCreatedName&key={{key}}&token={{token}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"1",
+						"boards",
+						":id",
+						"lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "ThisIsCreatedName"
+						},
+						{
+							"key": "key",
+							"value": "{{key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "https://api.trello.com"
+		},
+		{
+			"key": "key",
+			"value": "6ed294b068c309b49829045547a7fa98"
+		},
+		{
+			"key": "token",
+			"value": "ATTA888314acc5034198f1d9a87fb5635822d8b4dccaa552c9ee1ed8eee6fe9a814b1E22EB98"
+		},
+		{
+			"key": "id",
+			"value": "66e6d6131019e3e0a7e287ab"
+		},
+		{
+			"key": "field",
+			"value": "powerUps"
+		},
+		{
+			"key": "ÄrrayOfId",
+			"value": [
+				"66e6d6131019e3e0a7e287b2",
+				"66e6d6131019e3e0a7e287b3",
+				"66e6d6131019e3e0a7e287b4"
+			]
+		},
+		{
+			"key": "listid",
+			"value": "66e6d6131019e3e0a7e287b2"
+		},
+		{
+			"key": "boardname",
+			"value": null
+		}
+	]
+}
